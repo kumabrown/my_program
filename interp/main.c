@@ -1,30 +1,48 @@
 #include <stdio.h>
 #include <time.h>
+#include <stdbool.h>
 
 typedef struct
 {
+	double x0;
+	double y0;
 	double x1;
 	double y1;
-	double x2;
-	double y2;
 	double x;
 	double y;
 }value;
 
 void Func_Welcome(void);
 value Func_Input(void);
-double Func_Calc(value p);
+double Func_Calc(value variable);
 
 int main(void)
 {
 	/* Step. 01: Program Introduction */
 	Func_Welcome();
 
-	/* Step. 02: Variable Initialization */
-	value var = Func_Input();
-	var.y = Func_Calc(var);
+	char command;
+	while (true)
+	{
+		/* Step. 02: Variable Initialization */
+		value variable = Func_Input();
 
-	printf("x1 = %lf\n", var.x1);
+		/* Step. 03: Interpolation Process */
+		variable.y = Func_Calc(variable);
+
+		printf("Calculation Result\n");
+		printf("\ty = %lf\n\n", variable.y);
+
+		printf("Continue? [y/n]: ");
+		scanf_s(" %c", &command, sizeof(command));
+		if (command == 'n' || command == 'N')
+		{
+			printf("Program Done");
+			break;
+		}
+		printf("\n");
+	}
+	
 	
 	return 0;
 }
@@ -49,43 +67,86 @@ void Func_Welcome(void)
 	printf("|                                                                   |\n");
 	printf("|     Input Variable                                                |\n");
 	printf("|                                                                   |\n");
-	printf("|          Point A: (x1, y1) -> known value                         |\n");
-	printf("|          Point B: (x2, y2) -> known value                         |\n");
+	printf("|          Point A: (x0, y0) -> known value                         |\n");
+	printf("|          Point B: (x1, y1) -> known value                         |\n");
 	printf("|          Point C: x -> desired point                              |\n");
 	printf("|                                                                   |\n");
-	printf("|     Output Variable                                               |\n");
+	printf("|     Output variableiable                                          |\n");
 	printf("|                                                                   |\n");
 	printf("|          Point C: y -> the value correspontind to 'x'             |\n");
 	printf("|                                                                   |\n");
-	printf("+-------------------------------------------------------------------+\n");
+	printf("+-------------------------------------------------------------------+\n\n");
 }
 
 value Func_Input(void)
 {
 	// Variable Initialization
-	value var;
+	value variable;
+	for (;;)
+	{
+		// Point A
+		printf("Enter Point A (x0, y0)\n");
 
-	printf("x1: ");
-	scanf_s("%lf", &var.x1);
+		printf("\tx0 = ");
+		scanf_s("%lf", &variable.x0);
 
-	printf("y1: ");
-	scanf_s("%lf", &var.y1);
+		printf("\ty0 = ");
+		scanf_s("%lf", &variable.y0);
 
-	printf("x2: ");
-	scanf_s("%lf", &var.x2);
+		printf("\n");
 
-	printf("y2: ");
-	scanf_s("%lf", &var.y2);
+		// Point B
+		printf("Enter Point B (x1, y1)\n");
 
-	printf("x: ");
-	scanf_s("%lf", &var.x);
+		printf("\tx1 = ");
+		scanf_s("%lf", &variable.x1);
 
-	return var;
+		printf("\ty1 = ");
+		scanf_s("%lf", &variable.y1);
+
+		printf("\n");
+
+		if (variable.x0 >= variable.x1)
+		{
+			printf("Error\n");
+			printf("\t- x0 is greater than x1\n");
+			printf("\t- therefore, check the values of y0 and y1\n");
+			printf("\t- Please enter correct value\n\n");
+		}
+		else
+		{
+			break;
+		}
+	}
+	
+	for (;;)
+	{
+		// Point C
+		printf("Enter the x value of Point C located between x0 and x1\n");
+
+		printf("\tx = ");
+		scanf_s("%lf", &variable.x);
+
+		printf("\n");
+
+		if ((variable.x > variable.x1) || (variable.x < variable.x0))
+		{
+			printf("Error\n");
+			printf("\t- The value of x iss outside the range of x0 and x1\n");
+			printf("\t- Please enter correct value\n\n");
+		}
+		else
+		{
+			break;
+		}
+	}
+	
+	return variable;
 }
 
-double Func_Calc(value p)
+double Func_Calc(value variable)
 {
-	p.y = ((p.x - p.x1) / (p.x2 - p.x1)) * (p.y2 - p.y1) + p.y1;
-
-	return p.y;
+	variable.y = ((variable.x - variable.x0) / (variable.x1 - variable.x0)) * (variable.y1 - variable.y0) + variable.y0;
+	
+	return variable.y;
 }
