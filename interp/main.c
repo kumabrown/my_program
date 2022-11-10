@@ -7,10 +7,13 @@ typedef struct
 	double y1;
 	double x2;
 	double y2;
+	double x;
+	double y;
 }value;
 
 void Func_Welcome(void);
 value Func_Input(void);
+double Func_Calc(value p);
 
 int main(void)
 {
@@ -19,6 +22,8 @@ int main(void)
 
 	/* Step. 02: Variable Initialization */
 	value var = Func_Input();
+	var.y = Func_Calc(var);
+
 	printf("x1 = %lf\n", var.x1);
 	
 	return 0;
@@ -72,5 +77,15 @@ value Func_Input(void)
 	printf("y2: ");
 	scanf_s("%lf", &var.y2);
 
+	printf("x: ");
+	scanf_s("%lf", &var.x);
+
 	return var;
+}
+
+double Func_Calc(value p)
+{
+	p.y = ((p.x - p.x1) / (p.x2 - p.x1)) * (p.y2 - p.y1) + p.y1;
+
+	return p.y;
 }
