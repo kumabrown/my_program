@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\interp"
   ],
-  "SelectedNode": "\\interp.sln",
+  "SelectedNode": "\\interp\\main.c",
   "PreviewInSolutionExplorer": false
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 typedef struct
 {
@@ -18,12 +19,13 @@ double Func_Calc(value variable);
 
 int main(void)
 {
-	/* Step. 01: Program Introduction */
-	Func_Welcome();
-
 	char command;
+	int command_size = sizeof(command);
 	while (true)
 	{
+		/* Step. 01: Program Introduction */
+		Func_Welcome();
+
 		/* Step. 02: Variable Initialization */
 		value variable = Func_Input();
 
@@ -34,15 +36,17 @@ int main(void)
 		printf("\ty = %lf\n\n", variable.y);
 
 		printf("Continue? [y/n]: ");
-		scanf_s(" %c", &command, sizeof(command));
+		scanf_s(" %c", &command, command_size);
 		if (command == 'n' || command == 'N')
 		{
 			printf("Program Done");
+			system("pause");
 			break;
 		}
-		printf("\n");
+
+		/* Step. 04: Clear CMD console */
+		system("cls");
 	}
-	
 	
 	return 0;
 }
