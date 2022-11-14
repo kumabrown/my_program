@@ -39,7 +39,7 @@ int main(void)
 		scanf_s(" %c", &command, command_size);
 		if (command == 'n' || command == 'N')
 		{
-			printf("Program Done");
+			printf("Program Done\n");
 			system("pause");
 			break;
 		}
