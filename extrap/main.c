@@ -46,7 +46,7 @@ int main(void)
 		/* Step. 04: Clear CMD console */
 		system("cls");
 	}
-	
+
 	return 0;
 }
 
@@ -61,12 +61,12 @@ void Func_Welcome(void)
 
 	printf("+-------------------------------------------------------------------+\n");
 	printf("|                                                                   |\n");
-	printf("|                    Simple Linear Interpolation                    |\n");
+	printf("|                    Simple Linear Extrapolation                    |\n");
 	printf("|                                                                   |\n");
 	printf("| @ author      : Heedo Park                                        |\n");
 	printf("| @ execute date: %04d/%02d/%02d, %s                                   |\n", (1900 + now.tm_year), (now.tm_mon + 1), (now.tm_mday), week[now.tm_wday]);
 	printf("|                                                                   |\n");
-	printf("| - This program performs simple linear interpolation.              |\n");
+	printf("| - This program performs simple linear extrapolation.              |\n");
 	printf("|                                                                   |\n");
 	printf("|     Input Variable                                                |\n");
 	printf("|                                                                   |\n");
@@ -121,21 +121,21 @@ value Func_Input(void)
 			break;
 		}
 	}
-	
+
 	for (;;)
 	{
 		// Point C
-		printf("Enter the x value of Point C located between x0 and x1\n");
+		printf("Enter the x value of Point C located outside x0 and x1\n");
 
 		printf("\tx = ");
 		scanf_s("%lf", &variable.x);
 
 		printf("\n");
 
-		if ((variable.x > variable.x1) || (variable.x < variable.x0))
+		if ((variable.x < variable.x1) && (variable.x > variable.x0))
 		{
 			printf("Error\n");
-			printf("\t- The value of x iss outside the range of x0 and x1\n");
+			printf("\t- The value of x iss inside the range of x0 and x1\n");
 			printf("\t- Please enter correct value\n\n");
 		}
 		else
@@ -143,13 +143,16 @@ value Func_Input(void)
 			break;
 		}
 	}
-	
+
 	return variable;
 }
 
 double Func_Calc(value variable)
 {
-	variable.y = ((variable.x - variable.x0) / (variable.x1 - variable.x0)) * (variable.y1 - variable.y0) + variable.y0;
-	
+	double a, b;
+	a = (variable.y1 - variable.y0) / (variable.x1 - variable.x0);
+	b = variable.y0 - (a * variable.x0);
+	variable.y = (a * variable.x) + b;
+
 	return variable.y;
 }

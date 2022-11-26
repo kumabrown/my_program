@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\interp"
+    "\\extrap\\x64",
+    "\\extrap\\x64\\Release",
+    "\\interp\\x64",
+    "\\interp\\x64\\Release"
   ],
-  "SelectedNode": "\\interp\\interp.sln",
   "PreviewInSolutionExplorer": false
 }
